@@ -68,3 +68,6 @@ redirct的三种写法
 //   return redirect()->route("testRedirect");　　　　//路由命名的使用方式 route("name") laravel内置函数
 //   return redirect('/redirect2');   　　　　　　//laravel内置的函数
 //   return Redirect::to('redirect2');   　　　　//laravel门面
+
+
+这是一个测试  同步linux本地仓库同步至github
