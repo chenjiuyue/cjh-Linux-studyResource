@@ -1,0 +1,70 @@
+模板中的url跳转
+    <br>
+    <!-- url()通过路由的名称生成url -->
+    <a href="{{ url('url') }}">url()</a>
+    <br>
+    <!-- action()通过制定控制器及方法名生成url -->
+    <a href="{{ action('StudentController@urlTest') }}">action()</a>
+    <br>
+    <!-- route()通过路由的别名生成url -->
+    <a href="{{ route('url') }}">route()</a>
+
+静态资源的引用
+   {{URL::asset('./././')}}
+
+模板布局
+   @section
+   @yield
+
+路由
+   //视图路由 并传值
+   Route::get('layout',function(){
+       return view('layouts.child',['name'=>'linux','number'=>2]);
+   });
+   //路由别名
+   Route::get('index',['as'=>'index',function(){
+       return view('blog.index');
+   }]);
+
+避免CSRF攻击
+Laravel框架中避免CSRF攻击很简单：Laravel自动为每个用户Session生成了一个CSRF Token，该Token可用于验证登录用户和发起请求者是否是同一人，如果不是则请求失败。
+Laravel提供了一个全局帮助函数csrf_token来获取该Token值，因此只需在视提交图表单中添加如下HTML代码即可在请求中带上Token：
+<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+或者  {{ csrf_field() }}
+该段代码等同于全局帮助函数csrf_field的输出：
+<?php echo csrf_field(); ?>
+在Blade模板引擎中还可以使用如下方式调用：
+{!! csrf_field() !!}
+
+X-CSRF-Token及其使用
+如果使用Ajax提交POST表单，又该如何处理呢？我们可以将Token设置在meta中：
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
+然后在全局Ajax中使用这种方式设置X-CSRF-Token请求头并提交：
+
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+获取常量  config文件夹下新建constants.php文件
+Config::get('constants.WELL');
+//获取app/app.php里面的配置参数
+config('app.name');
+
+//查看laravel版本 3种方法
+方法1： 使用php artisan --version
+方法2： 在项目文件中找vendor\laravel\framework\src\Illuminate\Foundation\Application.php，打开后大约在32行能看到版本信息。这个方法很手工。但是同样也很准确。
+方法3： app()::VERSION;
+
+临时关闭网站
+php artisan down
+再打开
+php artisan up
+
+laravel重定向
+redirct的三种写法
+//   return redirect()->route("testRedirect");　　　　//路由命名的使用方式 route("name") laravel内置函数
+//   return redirect('/redirect2');   　　　　　　//laravel内置的函数
+//   return Redirect::to('redirect2');   　　　　//laravel门面
